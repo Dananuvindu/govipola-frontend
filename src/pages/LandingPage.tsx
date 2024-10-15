@@ -7,7 +7,7 @@ import LanguageButton from "../components/landingPage/LanguageButton";
 const LandingPage = () => {
   return (
     <div
-      className="w-screen h-screen bg-cover bg-no-repeat flex flex-col "
+      className="flex flex-col w-screen h-screen bg-no-repeat bg-cover "
       style={{ backgroundImage: `url(${BackgroundImg})` }}
     >
         <SignupAndLogin/>

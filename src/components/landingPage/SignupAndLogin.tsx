@@ -1,5 +1,5 @@
 import React from 'react'
-import BackgroundImg from "../assets/background.png";
+
 
 const SignupAndLogin = () => {
   return (

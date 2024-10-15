@@ -8,6 +8,9 @@ export default {
     extend: {
       fontFamily: {
         'sarpanch' : ['Sarpanch', 'sans-serif'],
+        'pt-mono' : ['PT Mono', 'monospace'],
+        'protest' : ['Protest Strike', 'sans-serif'],
+        'rammetto': ['Rammetto One', 'sans-serif']
       }
     },
   },
