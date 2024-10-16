@@ -13,9 +13,7 @@ const AboutUsText = () => {
       <div className="grid grid-cols-3 gap-10 my-12">
         <button><img src={FbImg} alt="" /></button>
         <button><img src={InstaImg} alt="" /></button> 
-        <button><img src={LinkedinImg} alt="" /></button>  
-        
-        
+        <button><img src={LinkedinImg} alt="" /></button>    
       </div>
     </div>
   );
