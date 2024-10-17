@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import logo from "../assets/Logo.png";
 import userImg from "../assets/user.png";
 import axios from "axios";
-import { Link, Route } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../components/UserContext"; 
 import backBtn from '../assets/backBtn.png'
 
 const LoginPage = () => {
@@ -13,7 +13,20 @@ const LoginPage = () => {
   const handleUsernameChange = (e: any) => setUsername(e.target.value);
   const handlePasswordChange = (e: any) => setPassword(e.target.value);
 
+  const navigate = useNavigate();
+
+   // Access UserContext
+   const userContext = useContext(UserContext);
+
+   // Check if the context is defined
+   if (!userContext) {
+     throw new Error("LoginPage must be used within a UserProvider");
+   }
+ 
+   const { setUser } = userContext; // Destructure setUser from context
+
   async function loginValidate() {
+    
     // Check if any required field is empty
     if (!selectedUsername || !selectedPassword) {
       alert("All fields are required.");
@@ -32,15 +45,30 @@ const LoginPage = () => {
       );
 
       // Destructuring the object
-      const { passWord, userType } = response.data;
-
+      const { passWord, phoneNumber, userType, id, name, address, city, divisionName } = response.data;
+      
       if(passWord === selectedPassword){
+        // Set user data in context
+        setUser({ 
+            username: selectedUsername, 
+            userType, 
+            id, 
+            name, 
+            address, 
+            city, 
+            divisionName,
+            phoneNumber
+          });
+
         if(userType === "farmer"){
-            
+            console.log(userType)
+            navigate("/farmer/homepage");
         }else if(userType === "middleman"){
-            
+            console.log(userType)
+            navigate("/middleman/homepage");
         }else{
-            
+            console.log(userType)
+            navigate("/miller/homepage");
         }
       }else{
         console.log("Password incorrect")
@@ -48,6 +76,7 @@ const LoginPage = () => {
     }else{
         console.log("username not exist")
     }
+    
   }
 
   return (
