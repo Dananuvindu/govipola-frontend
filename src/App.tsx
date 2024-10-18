@@ -9,6 +9,12 @@ import MillersHomePage from "./pages/MillersHomePage";
 import WholeSellerHomePage from "./pages/WholeSellerHomePage";
 import UserProfile from "./pages/UserProfile";
 import { UserProvider } from "./components/UserContext";
+import MillersList from "./pages/MillersList";
+import BuyersList from "./pages/BuyersList";
+import UserInfo from "./components/UserInfo";
+import FarmersList from "./pages/FarmersList";
+import FarmerMyStock from "./pages/MyStock";
+import MyStock from "./pages/MyStock";
 function App() {
   return (
     <div className="flex flex-col">
@@ -21,7 +27,12 @@ function App() {
         <Route path="/miller/homepage" element={<MillersHomePage />} />
         <Route path="/middleman/homepage" element={<WholeSellerHomePage />} />
         <Route path="/middleman/homepage" element={<WholeSellerHomePage />} />
-        <Route path="/userprofile" element={<UserProfile />} />  
+        <Route path="/userprofile" element={<UserProfile />} />
+        <Route path="/miller-details" element={<MillersList />} /> 
+        <Route path="/middleman-details" element={<BuyersList />} /> 
+        <Route path="/farmer-details" element={<FarmersList />} />  
+        <Route path="/farmer/my-stock" element={<MyStock/>} />  
+        <Route path="userInfo" element={<UserInfo />} /> 
       </Routes>
       </UserProvider>
     </div>

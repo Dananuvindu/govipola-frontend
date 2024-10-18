@@ -35,19 +35,20 @@ const LoginPage = () => {
 
     // Check if the username exists
     let response = await axios.get(
-      `http://localhost:8080/farmer/is-exist-user/${selectedUsername}`
+      `http://localhost:8080/user/is-exist-user/${selectedUsername}`
     );
 
     if (response.data === true) {
       // Fetch user details if username exists
       response = await axios.get(
-        `http://localhost:8080/farmer/find-by-username/${selectedUsername}`
+        `http://localhost:8080/user/find-by-username/${selectedUsername}`
       );
 
       // Destructuring the object
       const { passWord, phoneNumber, userType, id, name, address, city, divisionName } = response.data;
-      
       if(passWord === selectedPassword){
+
+        
         // Set user data in context
         setUser({ 
             username: selectedUsername, 
@@ -61,20 +62,20 @@ const LoginPage = () => {
           });
 
         if(userType === "farmer"){
-            console.log(userType)
+          
             navigate("/farmer/homepage");
         }else if(userType === "middleman"){
-            console.log(userType)
+            
             navigate("/middleman/homepage");
         }else{
-            console.log(userType)
+          
             navigate("/miller/homepage");
         }
       }else{
-        console.log("Password incorrect")
+        alert("Password incorrect")
       }
     }else{
-        console.log("username not exist")
+      alert("username not exist")
     }
     
   }

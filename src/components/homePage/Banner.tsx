@@ -4,7 +4,7 @@ import bgBanner from "../../assets/bgRice.png";
 const Banner = () => {
   return (
     <div
-      className="w-screen h-[20%] bg-cover bg-no-repeat flex flex-col"
+      className="flex flex-col w-screen bg-no-repeat bg-cover"
       style={{ backgroundImage: `url(${bgBanner})` }}
     >
       <div className="flex flex-col mb-[2%]">
