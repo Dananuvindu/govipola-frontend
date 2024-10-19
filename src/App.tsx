@@ -13,7 +13,6 @@ import MillersList from "./pages/MillersList";
 import BuyersList from "./pages/BuyersList";
 import UserInfo from "./components/UserInfo";
 import FarmersList from "./pages/FarmersList";
-import FarmerMyStock from "./pages/MyStock";
 import MyStock from "./pages/MyStock";
 function App() {
   return (

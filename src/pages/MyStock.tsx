@@ -6,7 +6,7 @@ import { UserContext } from "../components/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import backBtn from '../assets/backBtn.png';
 
-const FarmerMyStock = () => {  
+const MyStock = () => {  
   const [riceStock, setRiceStock] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedRiceId, setSelectedRiceId] = useState<number | null>(null);
@@ -66,10 +66,6 @@ const FarmerMyStock = () => {
     }
   }, [user]);
 
-  const handleUpdateClick = (id: number) => {
-    setSelectedRiceId(id);
-  };
-
   // Function to handle input changes for existing stock
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -84,6 +80,38 @@ const FarmerMyStock = () => {
     );
   };
 
+  // Function to send the updated stock to the backend
+  const handleSave = async (stockId: number) => {
+    const updatedStock = riceStock.find((stock) => stock.id === stockId);
+
+    if (updatedStock && user?.id) {
+      try {
+        await axios.put(
+          `http://localhost:8080/stock/update/${stockId}`,
+          {
+            pricePerKg: updatedStock.pricePerKg,
+            quantityKg: updatedStock.quantityKg,
+          }
+        );
+
+        alert("Stock updated successfully!");
+        setSelectedRiceId(null); // Exit edit mode after saving
+        getStock(); // Refresh the stock list
+      } catch (err) {
+        console.error("Error updating stock:", err);
+        alert("Failed to update stock");
+      }
+    }
+  };
+
+  const handleUpdateClick = (id: number) => {
+    if (selectedRiceId === id) {
+      handleSave(id); // Save the changes when clicking "Save"
+    } else {
+      setSelectedRiceId(id); // Enter edit mode
+    }
+  };
+
   // Function to handle input changes for new rice type
   const handleNewRiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -95,29 +123,33 @@ const FarmerMyStock = () => {
 
   // Function to add new rice type
   const addRice = async () => {
-    try {
-      const riceData = {
-        riceType: newRiceType,
-        pricePerKg: newPricePerKg,
-        quantityKg: newQuantityKg,
-      };
+    if(newRiceType !== ""  && newPricePerKg !== "" && newQuantityKg !== ""){
+      try {
+        const riceData = {
+          riceType: newRiceType,
+          pricePerKg: newPricePerKg,
+          quantityKg: newQuantityKg,
+        };
 
-      const response = await axios.post(
-        `http://localhost:8080/stock/add-ricestock/user/${user?.username}`,
-        riceData
-      );
+        const response = await axios.post(
+          `http://localhost:8080/stock/add-ricestock/user/${user?.username}`,
+          riceData
+        );
 
-      if (response.status === 200) {
-        alert("Rice added successfully!");
-        getStock(); // Refresh the stock after adding
-        // Clear the input fields
-        setNewRiceType("");
-        setNewPricePerKg("");
-        setNewQuantityKg("");
+        if (response.status === 200) {
+          alert("Rice added successfully!");
+          getStock(); // Refresh the stock after adding
+          // Clear the input fields
+          setNewRiceType("");
+          setNewPricePerKg("");
+          setNewQuantityKg("");
+        }
+      } catch (err) {
+        console.error("Error adding rice:", err);
+        alert("Failed to add rice");
       }
-    } catch (err) {
-      console.error("Error adding rice:", err);
-      alert("Failed to add rice");
+    } else {
+      alert("All details are required");
     }
   };
 
@@ -131,7 +163,7 @@ const FarmerMyStock = () => {
 
   return (
     <div
-      className="flex flex-col w-screen h-screen bg-no-repeat bg-cover"
+      className="flex flex-col w-screen h-full bg-no-repeat bg-cover pb-9"
       style={{ backgroundImage: `url(${bgImg})` }}
     >
       <NavBar topic="My Stock" />
@@ -222,11 +254,11 @@ const FarmerMyStock = () => {
                     <td className="px-6 py-4 border border-gray-300">
                       {selectedRiceId === stock.id ? (
                         <input
+                          className="h-8 bg-white bg-opacity-50 border border-black rounded-lg"
                           type="text"
                           name="pricePerKg"
                           value={stock.pricePerKg}
                           onChange={(e) => handleInputChange(e, stock.id)}
-                          className="p-1 border border-gray-300 rounded"
                         />
                       ) : (
                         stock.pricePerKg
@@ -235,36 +267,30 @@ const FarmerMyStock = () => {
                     <td className="px-6 py-4 border border-gray-300">
                       {selectedRiceId === stock.id ? (
                         <input
+                          className="h-8 bg-white bg-opacity-50 border border-black rounded-lg"
                           type="text"
                           name="quantityKg"
                           value={stock.quantityKg}
                           onChange={(e) => handleInputChange(e, stock.id)}
-                          className="p-1 border border-gray-300 rounded"
                         />
                       ) : (
                         stock.quantityKg
                       )}
                     </td>
                     <td className="px-6 py-4 border border-gray-300">
-                      {selectedRiceId === stock.id ? (
-                        <button
-                          onClick={() => handleUpdateClick(stock.id)}
-                          className="text-green-600"
-                        >
-                          Save
-                        </button>
-                      ) : (
-                        <button onClick={() => handleUpdateClick(stock.id)}>
-                          Edit
-                        </button>
-                      )}
+                      <button
+                        onClick={() => handleUpdateClick(stock.id)}
+                        className="px-3 py-1 text-white rounded-lg bg-slate-800"
+                      >
+                        {selectedRiceId === stock.id ? "Save" : "Edit"}
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           ) : (
-            <p>No rice stock available.</p>
+            <p>No stock available.</p>
           )}
         </div>
       </div>
@@ -272,4 +298,4 @@ const FarmerMyStock = () => {
   );
 };
 
-export default FarmerMyStock;
+export default MyStock;
