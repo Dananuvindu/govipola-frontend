@@ -87,7 +87,6 @@ const SignUp = () => {
     try {
       // Check if any required field is empty
       if (
-        !id ||
         !selectedUser ||
         !name ||
         !address ||
@@ -122,7 +121,6 @@ const SignUp = () => {
         alert("Password must be at least 8 characters long");
         return false;
       }
-
       return true; // Validation passed
     } catch (err) {
       console.error("Error during validation:", err);
