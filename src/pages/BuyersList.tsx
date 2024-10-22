@@ -7,7 +7,7 @@ const BuyersList = () => {
   return (
     <div className="flex flex-col w-screen h-full bg-no-repeat bg-cover" style={{ backgroundImage: `url(${middleManBg})` }}>
       <NavBar topic="Intermediate" />
-      <UserList user = "middlemen"/>
+      <UserList user = "intermediate"/>
     </div>
   )
 }

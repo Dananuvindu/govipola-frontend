@@ -161,8 +161,8 @@ const SignUp = () => {
             <option value="farmer" className="text-[15px]">
               Farmer
             </option>
-            <option value="middleman" className="text-[15px]">
-              Middle Man
+            <option value="intermediate" className="text-[15px]">
+              Intermediate
             </option>
             <option value="miller" className="text-[15px]">
               Miller
@@ -227,17 +227,17 @@ const SignUp = () => {
               <option value="" className="text-[15px]" disabled>
                 Select an option
               </option>
+              <option value="Mahaweli B" className="text-[15px]">
+                Mahaweli B
+              </option>
+              <option value="Mahaweli C" className="text-[15px]">
+                Mahaweli C
+              </option>
               <option value="Mahaweli D" className="text-[15px]">
                 Mahaweli D
               </option>
               <option value="Mahaweli F" className="text-[15px]">
                 Mahaweli F
-              </option>
-              <option value="Mahaweli E" className="text-[15px]">
-                Mahaweli E
-              </option>
-              <option value="Mahaweli B" className="text-[15px]">
-                Mahaweli B
               </option>
             </select>
           </div>

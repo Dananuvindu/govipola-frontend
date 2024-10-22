@@ -9,6 +9,7 @@ const UserList = (props: any) => {
   const [millers, setMillers] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useContext(UserContext) || {};
+  const [riceStocks, setRiceStocks] = useState<{ [key: number]: any[] }>({}); // Rice stock by user ID
 
   const navigate = useNavigate(); // useNavigate for navigation
 
@@ -19,12 +20,30 @@ const UserList = (props: any) => {
         `http://localhost:8080/user/get-all-${props.user}`
       );
       setMillers(response.data);
+
+      // After fetching millers, fetch rice stock for each miller
+      response.data.forEach(async (miller: any) => {
+        await getRiceStockForUser(miller.id);
+      });
     } catch (error) {
       console.error("Error fetching millers:", error);
     } finally {
       setLoading(false); // Set loading to false after the data is fetched
     }
   }
+
+  // Function to fetch rice stock for each user (miller)
+  const getRiceStockForUser = async (userId: number) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/stock/${userId}`);
+      setRiceStocks((prevStocks) => ({
+        ...prevStocks,
+        [userId]: response.data, // Store rice stock by user ID
+      }));
+    } catch (error) {
+      console.error(`Error fetching rice stock for user ${userId}:`, error);
+    }
+  };
 
   useEffect(() => {
     getMillers();
@@ -57,7 +76,6 @@ const UserList = (props: any) => {
       className="flex flex-col w-screen h-full bg-no-repeat bg-cover"
       style={{ backgroundImage: `url(${props.bg})` }}
     >
-
       <Link to={getUserRoute()}>
         <button className="mt-12 ml-[10%]">
           <img
@@ -72,25 +90,73 @@ const UserList = (props: any) => {
       {loading ? (
         <p className="mt-10 text-xl text-center">Loading millers...</p>
       ) : (
-        <div className="grid grid-cols-2 gap-y-12 px-[10%] my-10 place-items-center">
+        <div className="flex flex-col grid-cols-2 gap-y-12 px-[10%] my-10 place-items-center">
           {millers.length > 0 ? (
             millers.map((miller, index) => {
-              const { name, address, city, phoneNumber, divisionName } = miller;
+              const { id, name, address, city, phoneNumber, divisionName } = miller;
+
+              // Get the rice stock for the current miller
+              const riceStockForMiller = riceStocks[id] || [];
 
               return (
                 <div
                   key={index}
-                  className="p-4 bg-white bg-opacity-60 shadow-lg rounded-3xl w-[350px]"
+                  className="grid grid-cols-2 gap-10 p-4 bg-white shadow-lg bg-opacity-60 rounded-3xl"
                 >
-                  <h1 className="text-xl font-bold">{name}</h1>
-                  <p>{address}, {city}</p>
-                  
-                  <button
-                    onClick={() => handleSelectMiller(miller)} // Pass the selected miller
-                    className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg"
-                  >
-                    Contact
-                  </button>
+                  <div>
+                    <h1 className="text-xl font-bold">{name}</h1>
+                    <p>{address}, {city}</p>
+
+                    <button
+                      onClick={() => handleSelectMiller(miller)} // Pass the selected miller
+                      className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg"
+                    >
+                      Contact
+                    </button>
+                  </div>
+                  <div>
+                    <table className="rounded-lg shadow-md mx-auto mt-[5%]">
+                      <thead>
+                        <tr className="bg-slate-700 bg-opacity-60">
+                          <th className="px-2 py-2 text-left border border-gray-300">
+                            Rice Type
+                          </th>
+                          <th className="px-2 py-2 text-left border border-gray-300">
+                            Quantity
+                          </th>
+                          <th className="px-2 py-2 text-left border border-gray-300">
+                            Price
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {riceStockForMiller.length > 0 ? (
+                          riceStockForMiller.map((stock, stockIndex) => (
+                            <tr key={stockIndex}>
+                              <td className="px-2 py-2 border border-gray-300">
+                                {stock.riceType}
+                              </td>
+                              <td className="px-2 py-2 border border-gray-300">
+                                {stock.quantityKg} kg
+                              </td>
+                              <td className="px-2 py-2 border border-gray-300">
+                                Rs.{stock.pricePerKg}
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan={3}
+                              className="px-2 py-2 text-center border border-gray-300"
+                            >
+                              No stock available
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               );
             })
