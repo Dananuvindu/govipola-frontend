@@ -112,6 +112,20 @@ const MyStock = () => {
     }
   };
 
+  async function handleDeleteClick (id: number){
+    try {
+      await axios.delete(
+        `http://localhost:8080/stock/delete/${id}`
+      );
+      alert("Stock Deleted successfully!");
+      setSelectedRiceId(null); // Exit edit mode after saving
+      getStock(); // Refresh the stock list
+    } catch (err) {
+      console.error("Error deleting stock:", err);
+      alert("Failed to delete stock");
+    }
+  }
+
   // Function to handle input changes for new rice type
   const handleNewRiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -237,6 +251,7 @@ const MyStock = () => {
                     Quantity (kg)
                   </th>
                   <th className="px-6 py-4 text-left border border-gray-300"></th>
+                  <th className="px-6 py-4 text-left border border-gray-300"></th>
                 </tr>
               </thead>
               <tbody>
@@ -283,6 +298,14 @@ const MyStock = () => {
                         className="px-3 py-1 text-white rounded-lg bg-slate-800"
                       >
                         {selectedRiceId === stock.id ? "Save" : "Edit"}
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 border border-gray-300">
+                    <button
+                        className="px-3 py-1 text-white rounded-lg bg-red-600 ml-[20%]"
+                        onClick={() => handleDeleteClick(stock.id)}
+                      >
+                        Delete
                       </button>
                     </td>
                   </tr>

@@ -15,7 +15,7 @@ const MillersHomePage = () => {
       <SelectOption
       path1="/middleman-details"
       path2="/farmer-details"
-      path3="/farmer/my-stock"
+      path3="/my-stock"
         img1={MillersBg}
         img2={BuyersBg}
         img3={StockBg}

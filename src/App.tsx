@@ -29,7 +29,7 @@ function App() {
         <Route path="/miller-details" element={<MillersList />} /> 
         <Route path="/middleman-details" element={<BuyersList />} /> 
         <Route path="/farmer-details" element={<FarmersList />} />  
-        <Route path="/farmer/my-stock" element={<MyStock/>} />  
+        <Route path="/my-stock" element={<MyStock/>} />  
         <Route path="userInfo" element={<UserInfo />} /> 
       </Routes>
       </UserProvider>

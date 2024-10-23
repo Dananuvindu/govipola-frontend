@@ -101,7 +101,7 @@ const UserList = (props: any) => {
               return (
                 <div
                   key={index}
-                  className="grid grid-cols-2 gap-10 p-4 bg-white shadow-lg bg-opacity-60 rounded-3xl"
+                  className="grid grid-cols-2 gap-10 p-4 bg-white shadow-lg bg-opacity-60 rounded-3xl w-[550px]"
                 >
                   <div>
                     <h1 className="text-xl font-bold">{name}</h1>
@@ -114,49 +114,50 @@ const UserList = (props: any) => {
                       Contact
                     </button>
                   </div>
-                  <div>
-                    <table className="rounded-lg shadow-md mx-auto mt-[5%]">
-                      <thead>
-                        <tr className="bg-slate-700 bg-opacity-60">
-                          <th className="px-2 py-2 text-left border border-gray-300">
-                            Rice Type
-                          </th>
-                          <th className="px-2 py-2 text-left border border-gray-300">
-                            Quantity
-                          </th>
-                          <th className="px-2 py-2 text-left border border-gray-300">
-                            Price
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {riceStockForMiller.length > 0 ? (
-                          riceStockForMiller.map((stock, stockIndex) => (
-                            <tr key={stockIndex}>
-                              <td className="px-2 py-2 border border-gray-300">
-                                {stock.riceType}
-                              </td>
-                              <td className="px-2 py-2 border border-gray-300">
-                                {stock.quantityKg} kg
-                              </td>
-                              <td className="px-2 py-2 border border-gray-300">
-                                Rs.{stock.pricePerKg}
+             
+                    <div>
+                      <table className="rounded-lg shadow-md mx-auto mt-[5%]">
+                        <thead>
+                          <tr className="bg-slate-700 bg-opacity-60">
+                            <th className="px-2 py-2 text-left border border-gray-300">
+                              Rice Type
+                            </th>
+                            <th className="px-2 py-2 text-left border border-gray-300">
+                              Quantity
+                            </th>
+                            <th className="px-2 py-2 text-left border border-gray-300">
+                              Price
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {riceStockForMiller.length > 0 ? (
+                            riceStockForMiller.map((stock, stockIndex) => (
+                              <tr key={stockIndex}>
+                                <td className="px-2 py-2 border border-gray-300">
+                                  {stock.riceType}
+                                </td>
+                                <td className="px-2 py-2 border border-gray-300">
+                                  {stock.quantityKg} kg
+                                </td>
+                                <td className="px-2 py-2 border border-gray-300">
+                                  Rs.{stock.pricePerKg}
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan={3}
+                                className="px-2 py-2 text-center border border-gray-300"
+                              >
+                                No stock available
                               </td>
                             </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td
-                              colSpan={3}
-                              className="px-2 py-2 text-center border border-gray-300"
-                            >
-                              No stock available
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                 </div>
               );
             })
