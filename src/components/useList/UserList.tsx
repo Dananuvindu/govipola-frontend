@@ -57,7 +57,7 @@ const UserList = (props: any) => {
     switch (user.userType) {
       case "farmer":
         return "/farmer/homepage"; // Link for farmer
-      case "middleman":
+      case "intermediate":
         return "/middleman/homepage"; // Link for middleman
       case "miller":
         return "/miller/homepage"; // Link for miller
